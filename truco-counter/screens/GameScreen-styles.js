@@ -91,7 +91,7 @@ export const styles = StyleSheet.create({
     opacity: 0.8
   },
   pointsGoal: {
-    flex: 2,
+    flex: 3,
   },
   teamNames: {
     flex: 1,

@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useCallback, useState } from 'react';
-import { Alert, View, StatusBar, Text } from 'react-native';
+import { Alert, View, StatusBar, Text, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import TeamName from '../components/TeamName';
@@ -8,11 +8,12 @@ import ScoreBoard from '../components/ScoreBoard';
 import { Colors } from '../constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import PointsGoal from '../components/PointsGoal';
-import { styles } from './GameScreen-styles';
+// import { styles } from './GameScreen-styles';
 import { ScoreButtonGroup  } from './GameScreenAuxComponents'; 
 import EditModal from '../components/EditModal';
 import { GameOverModal } from './GameScreenAuxComponents';
 import { validateTeamName, validateScore, validateUniqueNames } from '../validations/validations';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -50,12 +51,9 @@ const reducer = (state, action) => {
 SplashScreen.preventAutoHideAsync();
 
 const GameScreen = () => {
-  const [newGoal, setNewGoal] = useState('');
-  const [newName, setNewName] = useState('');
   const [winner, setWinner] = useState('');
-  const [activeModal, setActiveModal] = useState(null); // null, 'points', 'name', 'game'
+  const [activeModal, setActiveModal] = useState(false);
   const [changingLeft, setChangingLeft] = useState(true);
-  const [changingPoints, setChangingPoints] = useState(false);
 
   const initialState = {
     score: 18,
@@ -82,9 +80,9 @@ const GameScreen = () => {
       const winnerName = state.leftPoints === state.score ? state.leftTeamName : state.rightTeamName;
       setWinner(winnerName);
       dispatchAction('SET_GAME_OVER', { gameStatus: true });
-      showModal('game');
-    }
-  }, [state.leftPoints, state.rightPoints, state.gameOver]);
+      setActiveModal(true);
+    } 
+  }, [state.leftPoints, state.rightPoints]);
   
   useEffect(() => {
     const hideSplash = async () => {
@@ -99,14 +97,11 @@ const GameScreen = () => {
     return null;
   }
 
-  const onChangeTeamName = (team) => {
-    setChangingPoints(false);
-    setNewName(team);
-    setChangingLeft(team === state.leftTeamName);
-    showModal('name');
+  const handleFocus = (team) => {
+    team === 'left' ? setChangingLeft(true) : setChangingLeft(false);
   };
 
-  const onConfirmName = () => {
+  const onConfirmName = (newName) => {
     const error = validateTeamName(newName);
     const error2 = changingLeft ? validateUniqueNames(newName, state.rightTeamName) 
                                 : validateUniqueNames(state.leftTeamName, newName);
@@ -116,16 +111,13 @@ const GameScreen = () => {
 
     const teamKey = changingLeft ? 'leftTeamName' : 'rightTeamName';
     dispatchAction('CHANGE_TEAM_NAME', { team: teamKey, newName });
-    hideModal();
   };
 
-  const onChangePoints = () => {
-    setChangingPoints(true);
-    setNewGoal(state.score.toString());
-    showModal('points');
-  };
+  // const onChangePoints = () => {
+  //   setNewGoal(state.score.toString());
+  // };
 
-  const onConfirmGoal = () => {
+  const onConfirmGoal = (newGoal) => {
     const error = validateScore(newGoal);
     if (error) return (
       Alert.alert('Error: ', error)
@@ -138,7 +130,6 @@ const GameScreen = () => {
       } else {
         dispatchAction('CHANGE_POINTS_GOAL', { newGoal: parsedGoal });
       }
-      hideModal();
     } else {
       Alert.alert("Error", "Ingrese un número válido");
     }
@@ -146,15 +137,11 @@ const GameScreen = () => {
 
   const onConfirmGame = () => {
     dispatchAction('RESET_GAME');
-    hideModal();
+    setActiveModal(false);
   };
 
-  const showModal = (type) => setActiveModal(type);
-  const hideModal = () => setActiveModal(null);
-
-
   const onCancelModal = () => {
-    hideModal();
+    setActiveModal(false);
     dispatchAction('SET_GAME_OVER', { gameStatus: false });
     setWinner('');
   };
@@ -186,57 +173,181 @@ const GameScreen = () => {
         style={styles.background}
       />
       <StatusBar barStyle="light-content" />
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.pointsGoal}>
-            <PointsGoal score={state.score} onPressPoints={() => onChangePoints()} />
+      <KeyboardAwareScrollView style={{ flexGrow: 1 }}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <View style={styles.pointsGoal}>
+              <PointsGoal score={state.score.toString()} onPressPoints={() => onChangePoints()} onBlur={onConfirmGoal} />
+            </View>
+            <View style={styles.teamNames}>
+              <TeamName name={state.leftTeamName} onChangeName={() => onChangeTeamName(state.leftTeamName)} onBlur={onConfirmName} onFocus={() => handleFocus('left')} />
+              <TeamName name={state.rightTeamName} onChangeName={() => onChangeTeamName(state.rightTeamName)} onBlur={onConfirmName} onFocus={() => handleFocus('right')} />
+            </View>
           </View>
-          <View style={styles.teamNames}>
-            <TeamName name={state.leftTeamName} onChangeName={() => onChangeTeamName(state.leftTeamName)} />
-            <TeamName name={state.rightTeamName} onChangeName={() => onChangeTeamName(state.rightTeamName)} />
+          <View style={styles.scoreboard}>
+            <ScoreBoard 
+              score={state.score}
+              leftPoints={state.leftPoints}
+              rightPoints={state.rightPoints}
+            />
           </View>
-        </View>
-        <View style={styles.scoreboard}>
-          <ScoreBoard 
-            score={state.score}
-            leftPoints={state.leftPoints}
-            rightPoints={state.rightPoints}
+          <View style={styles.ads}>
+            <Text style={styles.adsText}>
+              {state.leftPoints.toString()}
+            </Text>
+            <Text style={styles.adsText}>
+              {state.rightPoints.toString()}
+            </Text>
+          </View>
+          <View style={styles.scoreButtons}>
+            <ScoreButtonGroup team="left" onPressLeft={onPressMinus} onPressRight={onPressPlus} />
+            <ScoreButtonGroup team="right" onPressLeft={onPressMinus} onPressRight={onPressPlus} />
+          </View>
+
+          {/* MODALS */}
+          <GameOverModal 
+            winner={winner} 
+            onPressLeft={onCancelModal} 
+            onPressRight={onConfirmGame}
+            isVisible={activeModal} 
+            onBackdropPress={onCancelModal} 
           />
         </View>
-        <View style={styles.ads}>
-          <Text style={styles.adsText}>
-            {state.leftPoints.toString()}
-          </Text>
-          <Text style={styles.adsText}>
-            {state.rightPoints.toString()}
-          </Text>
-        </View>
-        <View style={styles.scoreButtons}>
-          <ScoreButtonGroup team="left" onPressLeft={onPressMinus} onPressRight={onPressPlus} />
-          <ScoreButtonGroup team="right" onPressLeft={onPressMinus} onPressRight={onPressPlus} />
-        </View>
-
-        {/* MODALS */}
-        <GameOverModal 
-          winner={winner} 
-          onPressLeft={onCancelModal} 
-          onPressRight={onConfirmGame}
-          isVisible={activeModal === 'game'} 
-          onBackdropPress={onCancelModal} 
-        />
-        <EditModal 
-          value={changingPoints ? newGoal : newName}
-          onChangeText={changingPoints ? setNewGoal : setNewName}
-          onPressLeft={onCancelModal}
-          onPressRight={changingPoints ? onConfirmGoal : onConfirmName}
-          isVisible={changingPoints ? activeModal === 'points' : activeModal === 'name'}
-          onBackdropPress={onCancelModal}
-          changingPoints={changingPoints}
-        />
-      </View>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
     
   );
 };
+
+export const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
+  scrollview: {
+    flex: 1, 
+  },
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0
+  },
+  container: {
+    flex: 1,
+    borderWidth: 1,
+    // backgroundColor: 'red',
+    flexGrow: 1,
+  },
+  header: {
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+  scoreboard: {
+    flex: 15,
+  },
+  scoreButtons: {
+    flex: 2,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    paddingTop: 12,
+  },
+  ads: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  adsText: {
+    fontStyle: 'Russo-One',
+    fontSize: 16,
+    color: Colors.lightgrey,
+    height: 36,
+    width: 36,
+    borderRadius: 28,
+    backgroundColor: Colors.darkblue,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
+  tapArea: {
+    flex: 1
+  },
+  modal: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalText: {
+    fontFamily: 'Russo-One',
+    fontSize: 24,
+  },
+  modalInput: {
+    fontFamily: 'Russo-One',
+    fontSize: 24,
+    backgroundColor: 'white',
+    height: 64,
+    width: '90%',
+    borderRadius: 16,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    marginTop: 12,
+    marginBottom: 8,
+    backgroundColor: Colors.lightgrey
+  },
+  modalHeader: {
+    width: 50,
+  },
+  modalBody: {
+    width: 220,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalFooter: {
+    width: 50,
+  },
+  logo: {
+    opacity: 0.8
+  },
+  pointsGoal: {
+    flex: 3,
+  },
+  teamNames: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    height: 56,
+    width: 56,
+    borderRadius: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  leftButton: {
+    borderColor: Colors.red,
+    borderWidth: 5,
+  },
+  rightButton: {
+    borderColor: Colors.teal,
+    borderWidth: 5,
+  },
+  leftPlayerGradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '50%',
+  },
+  rightPlayerGradient: {
+    position: 'absolute',
+    top: 0,
+    left: '50%',
+    width: '50%',
+  },
+});
+
 
 export default GameScreen;

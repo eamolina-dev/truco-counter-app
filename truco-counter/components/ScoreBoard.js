@@ -30,7 +30,8 @@ const ScoreBoard = ({ score, leftPoints, rightPoints }) => {
 
 const styles = StyleSheet.create({
   scoreboard: {
-    flex: 1,
+    // flex: 1,
+    height: 600
   },
   container: {
     flex: 1,

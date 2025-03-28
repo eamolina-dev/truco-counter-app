@@ -30,7 +30,7 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/HennyPenny-Regular.ttf"
+            "./assets/fonts/RussoOne-Regular.ttf"
           ]
         }
       ]

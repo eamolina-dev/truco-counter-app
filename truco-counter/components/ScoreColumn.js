@@ -11,17 +11,11 @@ const ScoreColumn = ({ pointsGoal, points, markMidLine }) => {
 
   return (
     <View style={[styles.container, { borderTopColor: goods > 0 ? Colors.teal : Colors.red, borderTopWidth: 3 }]}>
-      <LinearGradient 
-        colors={[points <= half ? 'transparent' : 'transparent', 'transparent']} 
-        style={styles.scoreboardGradient}
-        start={{ x: 0, y: 0.25 }}
-        end={{ x: 0, y: 0.75 }}
-      />
-        <View style={styles.pointsContainer}>
-          <Points totalPoints={half} points={bads} />
-          {markMidLine && <View style={styles.divider} />}
-          <Points totalPoints={half} points={goods} />
-        </View>
+      <View style={styles.pointsContainer}>
+        <Points totalPoints={half} points={bads} />
+        {markMidLine && <View style={styles.divider} />}
+        <Points totalPoints={half} points={goods} />
+      </View>
     </View>    
   );
 };
@@ -32,9 +26,9 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   pointsContainer: {
-    flex: 1,
+    // flex: 1,
     height: '100%',
-    alignSelf: 'stretch',
+    // alignSelf: 'stretch',
     alignItems: 'center',
   },
   divider: {

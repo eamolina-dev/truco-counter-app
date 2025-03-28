@@ -1,37 +1,44 @@
-import React from 'react';
-import { Text, StyleSheet } from 'react-native';
-import TapArea from './TapArea';
+import React, { useState } from 'react';
+import { StyleSheet, TextInput, View } from 'react-native';
 import { Colors } from '../constants/colors';
 
-const TeamName = ({ name, onChangeName }) => {
+const TeamName = ({ name, onChangeName, onBlur, onFocus }) => {
+  const [newName, setNewName] = useState(name); 
+
+  const handleChange = (n) => {
+    setNewScore(n);
+  };
+
+  const handleBlur = () => {
+    setNewName((prev) => prev.trim());
+    onBlur(newName.trim());
+  };
+
   return (
-    <TapArea
-      onPress={onChangeName}
-      style={styles.tapArea}
-    >
-      <Text style={styles.team}>
-        {name}
-      </Text>
-    </TapArea>
+    <View style={styles.container}>
+      <TextInput
+        value={newName}
+        onChangeText={handleChange}
+        onFocus={onFocus}
+        onBlur={handleBlur}
+        style={styles.textInput}
+        cursorColor={Colors.white}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  tapArea: {
+  container: {
     flex: 1,
-    alignSelf: 'stretch',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end'
+    height: 42,
   },
-  team: {
-    flex: 1,
-    alignSelf: 'stretch',
+  textInput: {
     fontFamily: 'Russo-One',
     fontSize: 20,
     textAlign: 'center',
     textAlignVertical: 'center',
     color: Colors.white,
-    // color: Colors.darkblue,
   },
 });
 

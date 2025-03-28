@@ -6,12 +6,11 @@ const PointsGroup = ({ points, height = 100, width = 100 }) => {
   const scale = height / 100;
 
   const Group = ({ style, tilt, testID }) => {
-    const appliedStyle = { ...style, transform: [{ rotate: tilt }] };
     return (
       <Match 
         height={64 * scale} 
         width={64 * scale} 
-        style={appliedStyle}
+        style={[style, { transform: [{ rotate: tilt }] }]}
         testID={testID}
       />
     );
@@ -21,7 +20,6 @@ const PointsGroup = ({ points, height = 100, width = 100 }) => {
   return (
     <View 
       style={[styles.pointsGroup, { height, width }]} 
-      testID="points-group"
     >
       <Group
         style={[styles.match1, { opacity: points >= 1 ? 0.9 : 0, top: 10 * scale, left: -11 * scale }]}
