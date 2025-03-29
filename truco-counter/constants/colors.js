@@ -1,12 +1,14 @@
 export const Colors = {
   // Summer Camp palette - Adobe
-  darkblue: '#070B14',
-  red: '#551717',
-  teal: '#2C6871', // green-blue
+  darkblue: '#181926',
+  // red: '#551717',
+  red: '#BF8756',
+  teal: '#BF8756', // green-blue
+  // teal: '#2C6871', // green-blue
   orange: '#E61F26',
-  yellow: '#FAA63A',
+  yellow: '#72736F',
   // Two women dancing outside
-  white: '#D9D9D9',
+  white: '#F2F2F2',
   lightgrey: '#A6A6A6',
   //
   black: '#000000', 

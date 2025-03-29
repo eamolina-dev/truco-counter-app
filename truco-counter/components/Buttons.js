@@ -24,7 +24,7 @@ const Buttons = ({ leftButton, rightButton, onPressLeft, onPressRight, color }) 
 const styles = StyleSheet.create({
   buttons: {
     flex: 1,
-    // width: 216,
+    // height: '100',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
@@ -38,12 +38,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   leftButton: {
+    // backgroundColor: Colors.red
     borderColor: Colors.red,
-    borderWidth: 5,
+    borderWidth: 4,
   },
   rightButton: {
+    // backgroundColor: Colors.teal
     borderColor: Colors.teal,
-    borderWidth: 5,
+    borderWidth: 4,
   },
 
 });

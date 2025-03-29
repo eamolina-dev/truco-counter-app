@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { Colors } from '../constants/colors';
 
-const PointsGoal = ({ score, onPressPoints, onBlur }) => {
+const PointsGoal = ({ score, onBlur }) => {
   const [newScore, setNewScore] = useState(score); 
 
   const handleChange = (s) => {
@@ -30,18 +30,23 @@ const PointsGoal = ({ score, onPressPoints, onBlur }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 80,
+    // height: 64,
+    // backgroundColor: 'green'
   },
   textInput: {
-    fontFamily: 'Russo-One',
+    // fontFamily: 'Russo-One',
+    fontWeight: '500',
     fontSize: 48,
-    borderColor: Colors.yellow,
-    textShadowColor: Colors.yellow,
-    textShadowRadius: 3,
-    color: Colors.darkblue,
+    // borderColor: 'red',
+    textShadowColor: Colors.black,
+    textShadowRadius: 5,
+    color: Colors.white,
+    paddingTop: 0,
     paddingBottom: 0,
     textAlign: 'center',
     textAlignVertical: 'center',
+    opacity: 0.9
+    // backgroundColor: 'red'
   }
 });
 

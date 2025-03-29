@@ -10,7 +10,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import PointsGoal from '../components/PointsGoal';
 // import { styles } from './GameScreen-styles';
 import { ScoreButtonGroup  } from './GameScreenAuxComponents'; 
-import EditModal from '../components/EditModal';
 import { GameOverModal } from './GameScreenAuxComponents';
 import { validateTeamName, validateScore, validateUniqueNames } from '../validations/validations';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -113,10 +112,6 @@ const GameScreen = () => {
     dispatchAction('CHANGE_TEAM_NAME', { team: teamKey, newName });
   };
 
-  // const onChangePoints = () => {
-  //   setNewGoal(state.score.toString());
-  // };
-
   const onConfirmGoal = (newGoal) => {
     const error = validateScore(newGoal);
     if (error) return (
@@ -167,21 +162,23 @@ const GameScreen = () => {
   
   return (
     <SafeAreaView style={styles.screen}>
-      <LinearGradient
-        colors={[Colors.darkblue, Colors.black]}
-        // colors={[Colors.lightblue, Colors.darkblue]}
-        style={styles.background}
-      />
-      <StatusBar barStyle="light-content" />
-      <KeyboardAwareScrollView style={{ flexGrow: 1 }}>
-        <View style={styles.container}>
+      <KeyboardAwareScrollView 
+        style={{ flexGrow: 1 }}
+        contentContainerStyle={styles.outterContainer} 
+      >
+        <LinearGradient
+          colors={[Colors.darkblue, Colors.black]}
+          style={styles.background}
+        />
+        <StatusBar barStyle="light-content" />
+        <View style={styles.innerContainer}>
           <View style={styles.header}>
             <View style={styles.pointsGoal}>
-              <PointsGoal score={state.score.toString()} onPressPoints={() => onChangePoints()} onBlur={onConfirmGoal} />
+              <PointsGoal score={state.score.toString()} onBlur={onConfirmGoal} />
             </View>
             <View style={styles.teamNames}>
-              <TeamName name={state.leftTeamName} onChangeName={() => onChangeTeamName(state.leftTeamName)} onBlur={onConfirmName} onFocus={() => handleFocus('left')} />
-              <TeamName name={state.rightTeamName} onChangeName={() => onChangeTeamName(state.rightTeamName)} onBlur={onConfirmName} onFocus={() => handleFocus('right')} />
+              <TeamName name={state.leftTeamName} onBlur={onConfirmName} onFocus={() => handleFocus('left')} />
+              <TeamName name={state.rightTeamName} onBlur={onConfirmName} onFocus={() => handleFocus('right')} />
             </View>
           </View>
           <View style={styles.scoreboard}>
@@ -191,11 +188,11 @@ const GameScreen = () => {
               rightPoints={state.rightPoints}
             />
           </View>
-          <View style={styles.ads}>
-            <Text style={styles.adsText}>
+          <View style={styles.numbers}>
+            <Text style={styles.number}>
               {state.leftPoints.toString()}
             </Text>
-            <Text style={styles.adsText}>
+            <Text style={styles.number}>
               {state.rightPoints.toString()}
             </Text>
           </View>
@@ -204,7 +201,6 @@ const GameScreen = () => {
             <ScoreButtonGroup team="right" onPressLeft={onPressMinus} onPressRight={onPressPlus} />
           </View>
 
-          {/* MODALS */}
           <GameOverModal 
             winner={winner} 
             onPressLeft={onCancelModal} 
@@ -215,7 +211,6 @@ const GameScreen = () => {
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
-    
   );
 };
 
@@ -223,44 +218,42 @@ export const styles = StyleSheet.create({
   screen: {
     flex: 1,
   },
-  scrollview: {
-    flex: 1, 
+  outterContainer: {
+    flex: 1,
+  },
+  innerContainer: {
+    flex: 1,
   },
   background: {
     position: 'absolute',
     left: 0,
     right: 0,
     top: 0,
-    bottom: 0
-  },
-  container: {
-    flex: 1,
-    borderWidth: 1,
-    // backgroundColor: 'red',
-    flexGrow: 1,
+    bottom: 0,
   },
   header: {
-    flex: 2,
+    flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
-
+    // backgroundColor: 'blue'
   },
   scoreboard: {
-    flex: 15,
+    flex: 18,
+    // backgroundColor: 'green'
   },
-  scoreButtons: {
-    flex: 2,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    paddingTop: 12,
-  },
-  ads: {
+  numbers: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    // backgroundColor: 'yellow'
+
   },
-  adsText: {
+  scoreButtons: {
+    flex: 3,
+    flexDirection: 'row',
+  },
+  number: {
     fontStyle: 'Russo-One',
     fontSize: 16,
     color: Colors.lightgrey,
@@ -311,10 +304,10 @@ export const styles = StyleSheet.create({
     opacity: 0.8
   },
   pointsGoal: {
-    flex: 3,
+    // flex: 3,
   },
   teamNames: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -334,18 +327,6 @@ export const styles = StyleSheet.create({
   rightButton: {
     borderColor: Colors.teal,
     borderWidth: 5,
-  },
-  leftPlayerGradient: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '50%',
-  },
-  rightPlayerGradient: {
-    position: 'absolute',
-    top: 0,
-    left: '50%',
-    width: '50%',
   },
 });
 

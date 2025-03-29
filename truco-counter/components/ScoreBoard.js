@@ -6,11 +6,10 @@ import { Colors } from '../constants/colors';
 const ScoreBoard = ({ score, leftPoints, rightPoints }) => {
   const half = Math.floor(score / 2);
 
-  const markMidLine = leftPoints >= half || rightPoints >= half;
+  const markMidLine = leftPoints > half || rightPoints > half;
 
   return (
     <View style={styles.scoreboard}>
-      {/* <View style={styles.topDivider} /> */}
       <View style={styles.container}>
         <ScoreColumn 
           pointsGoal={score} 
@@ -30,8 +29,8 @@ const ScoreBoard = ({ score, leftPoints, rightPoints }) => {
 
 const styles = StyleSheet.create({
   scoreboard: {
-    // flex: 1,
-    height: 600
+    flex: 1,
+    // height: 600
   },
   container: {
     flex: 1,
@@ -43,13 +42,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.darkblue,
     height: '100%',
     width: 3,
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
-  },
-  topDivider: {
-    backgroundColor: Colors.lightgrey,
-    height: 1,
-    width: '100%',
   },
 });
 

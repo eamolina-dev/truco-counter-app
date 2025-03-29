@@ -10,10 +10,11 @@ const ScoreColumn = ({ pointsGoal, points, markMidLine }) => {
   const goods = points >= half ? points - half : 0;
 
   return (
-    <View style={[styles.container, { borderTopColor: goods > 0 ? Colors.teal : Colors.red, borderTopWidth: 3 }]}>
+    <View style={styles.container}>
+      <View style={styles.topDivider} />
       <View style={styles.pointsContainer}>
         <Points totalPoints={half} points={bads} />
-        {markMidLine && <View style={styles.divider} />}
+        {markMidLine && <View style={styles.midDivider} />}
         <Points totalPoints={half} points={goods} />
       </View>
     </View>    
@@ -31,13 +32,22 @@ const styles = StyleSheet.create({
     // alignSelf: 'stretch',
     alignItems: 'center',
   },
-  divider: {
+  midDivider: {
     position: 'absolute',
     left: 0,
     right: 0,
     top: '49%',
     backgroundColor: Colors.darkblue,
     height: 3,
+  },
+  topDivider: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: 0,
+    backgroundColor: '#734D2C',
+    height: 3,
+    width: '90%',
+    borderRadius: 28,
   },
   scoreboardGradient: {
     position: 'absolute',
