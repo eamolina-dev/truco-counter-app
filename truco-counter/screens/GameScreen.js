@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useCallback, useState } from 'react';
-import { Alert, View, StatusBar, Text, StyleSheet } from 'react-native';
+import { Alert, View, StatusBar, Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import TeamName from '../components/TeamName';
@@ -12,7 +12,7 @@ import PointsGoal from '../components/PointsGoal';
 import { ScoreButtonGroup  } from './GameScreenAuxComponents'; 
 import { GameOverModal } from './GameScreenAuxComponents';
 import { validateTeamName, validateScore, validateUniqueNames } from '../validations/validations';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -33,7 +33,10 @@ const reducer = (state, action) => {
         gameOver: false
       };
     case 'CHANGE_TEAM_NAME':
-      return { ...state, [action.team]: action.newName };
+      return {
+        ...state,
+        [`${action.team}TeamName`]: action.newName,
+      };      
     case 'CHANGE_POINTS_GOAL':
       return { 
         ...state, 
@@ -108,8 +111,8 @@ const GameScreen = () => {
       Alert.alert('Error: ', error || error2)
     );
 
-    const teamKey = changingLeft ? 'leftTeamName' : 'rightTeamName';
-    dispatchAction('CHANGE_TEAM_NAME', { team: teamKey, newName });
+    const teamKey = changingLeft ? 'left' : 'right';
+    dispatchAction('CHANGE_TEAM_NAME', { team: teamKey, newName });    
   };
 
   const onConfirmGoal = (newGoal) => {
@@ -162,15 +165,15 @@ const GameScreen = () => {
   
   return (
     <SafeAreaView style={styles.screen}>
-      <KeyboardAwareScrollView 
+      <LinearGradient
+        colors={[Colors.darkblue, Colors.black]}
+        style={styles.background}
+      />
+      <StatusBar barStyle="light-content" />
+      <KeyboardAvoidingView 
         style={{ flexGrow: 1 }}
         contentContainerStyle={styles.outterContainer} 
       >
-        <LinearGradient
-          colors={[Colors.darkblue, Colors.black]}
-          style={styles.background}
-        />
-        <StatusBar barStyle="light-content" />
         <View style={styles.innerContainer}>
           <View style={styles.header}>
             <View style={styles.pointsGoal}>
@@ -209,7 +212,7 @@ const GameScreen = () => {
             onBackdropPress={onCancelModal} 
           />
         </View>
-      </KeyboardAwareScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -232,17 +235,18 @@ export const styles = StyleSheet.create({
     bottom: 0,
   },
   header: {
-    flex: 3,
+    // flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: 'blue'
   },
   scoreboard: {
-    flex: 18,
+    // flex: 18,
+    height: 600,
     // backgroundColor: 'green'
   },
   numbers: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -250,7 +254,7 @@ export const styles = StyleSheet.create({
 
   },
   scoreButtons: {
-    flex: 3,
+    // flex: 3,
     flexDirection: 'row',
   },
   number: {
@@ -260,7 +264,7 @@ export const styles = StyleSheet.create({
     height: 36,
     width: 36,
     borderRadius: 28,
-    backgroundColor: Colors.darkblue,
+    // backgroundColor: Colors.darkblue,
     textAlign: 'center',
     textAlignVertical: 'center',
   },

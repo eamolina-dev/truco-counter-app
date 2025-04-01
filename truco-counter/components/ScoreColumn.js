@@ -11,7 +11,7 @@ const ScoreColumn = ({ pointsGoal, points, markMidLine }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topDivider} />
+      {/* <View style={styles.topDivider} /> */}
       <View style={styles.pointsContainer}>
         <Points totalPoints={half} points={bads} />
         {markMidLine && <View style={styles.midDivider} />}

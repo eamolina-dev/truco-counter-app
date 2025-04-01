@@ -21,7 +21,9 @@ export const GameOverModal = ({ winner, onPressLeft, onPressRight, isVisible, on
         </View>
         <View style={styles.modalBody}>
           <Text style={styles.modalText}>¡Fin del Juego!</Text>
-          <Text style={styles.modalText}>Ganador: {winner}</Text>
+          <Text style={styles.modalText}>---</Text>
+          <Text style={styles.modalText}>Ganador:</Text>
+          <Text style={styles.modalText}>{winner}</Text>
         </View>
         <View style={styles.modalFooter}>
           <IconButton 

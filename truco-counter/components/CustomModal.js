@@ -23,7 +23,7 @@ const CustomModal = ({ children, isVisible, onBackdropPress }) => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    height: 100,
+    height: 200,
     width: 360,
     alignSelf: "center",
     borderRadius: 28,

@@ -38,13 +38,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   leftButton: {
-    // backgroundColor: Colors.red
-    borderColor: Colors.red,
+    // backgroundColor: Colors.darkblue
+    borderColor: Colors.darkblue,
     borderWidth: 4,
   },
   rightButton: {
-    // backgroundColor: Colors.teal
-    borderColor: Colors.teal,
+    // backgroundColor: Colors.darkblue
+    borderColor: Colors.darkblue,
     borderWidth: 4,
   },
 
