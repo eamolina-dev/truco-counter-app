@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Match from '../assets/svg/match.svg';
+import Match from '../../assets/svg/match.svg';
 
 const PointsGroup = ({ points, height = 100, width = 100 }) => {
   const scale = height / 100;

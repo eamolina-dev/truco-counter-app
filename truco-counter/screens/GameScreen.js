@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, useCallback, useState } from 'react';
 import { Alert, View, StatusBar, Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import TeamName from '../components/atoms/TeamName';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ScoreBoard from '../components/ScoreBoard';
+import ScoreBoard from '../components/organisms/ScoreBoard';
 import { Colors } from '../lib/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import PointsGoal from '../components/atoms/PointsGoal';
