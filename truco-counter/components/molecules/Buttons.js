@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Colors } from '../constants/colors';
-import TapArea from './TapArea';
+import { Colors } from '../../lib/constants/colors';
+import TapArea from '../atoms/TapArea';
 import { FontAwesome6 } from "@expo/vector-icons";
 
 const Buttons = ({ leftButton, rightButton, onPressLeft, onPressRight, color }) => {
@@ -24,7 +24,6 @@ const Buttons = ({ leftButton, rightButton, onPressLeft, onPressRight, color }) 
 const styles = StyleSheet.create({
   buttons: {
     flex: 1,
-    // height: '100',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
@@ -36,15 +35,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 10,
+    // backgroundColor: Colors.darkblue,
+    borderColor: Colors.darkblue,
   },
   leftButton: {
-    // backgroundColor: Colors.darkblue
-    borderColor: Colors.darkblue,
     borderWidth: 4,
   },
   rightButton: {
-    // backgroundColor: Colors.darkblue
-    borderColor: Colors.darkblue,
     borderWidth: 4,
   },
 

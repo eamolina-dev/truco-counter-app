@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
-import { Colors } from "../constants/colors";
+import { Colors } from "../../lib/constants/colors";
 
 const CustomModal = ({ children, isVisible, onBackdropPress }) => {
   return (
@@ -23,21 +23,16 @@ const CustomModal = ({ children, isVisible, onBackdropPress }) => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    height: 200,
+    height: 180,
     width: 360,
-    alignSelf: "center",
     borderRadius: 28,
-    overflow: "hidden",
-    backgroundColor: Colors.white,
-  },
-  gradient: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: Colors.lightgrey,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   modalContent: {
-    width: "100%",
-    padding: 20,
+    flex: 1,
+    alignSelf: 'stretch',
     justifyContent: "center",
     alignItems: "center",
   },

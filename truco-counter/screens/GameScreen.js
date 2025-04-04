@@ -1,56 +1,15 @@
 import React, { useEffect, useReducer, useCallback, useState } from 'react';
 import { Alert, View, StatusBar, Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import TeamName from '../components/TeamName';
+import TeamName from '../components/atoms/TeamName';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ScoreBoard from '../components/ScoreBoard';
-import { Colors } from '../constants/colors';
+import { Colors } from '../lib/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import PointsGoal from '../components/PointsGoal';
-// import { styles } from './GameScreen-styles';
-import { ScoreButtonGroup  } from './GameScreenAuxComponents'; 
-import { GameOverModal } from './GameScreenAuxComponents';
+import PointsGoal from '../components/atoms/PointsGoal';
+import { reducer } from '../lib/reducers/gameReducer';
+import GameOverModal from '../components/organisms/GameOverModal';
+import ScoreButtonGroup from '../components/organisms/ScoreButtons';
 import { validateTeamName, validateScore, validateUniqueNames } from '../validations/validations';
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'INCREMENT':
-      return { 
-        ...state, 
-        [action.team]: state[action.team] < state.score ? state[action.team] + 1 : state[action.team] 
-      };
-    case 'DECREMENT':
-      return { ...state, [action.team]: Math.max(0, state[action.team] - 1) };
-    case 'SET_GAME_OVER':
-      return { ...state, gameOver: action.gameStatus };
-    case 'RESET_GAME':
-      return { 
-        ...state, 
-        leftPoints: 0,
-        rightPoints: 0,
-        gameOver: false
-      };
-    case 'CHANGE_TEAM_NAME':
-      return {
-        ...state,
-        [`${action.team}TeamName`]: action.newName,
-      };      
-    case 'CHANGE_POINTS_GOAL':
-      return { 
-        ...state, 
-        score: action.newGoal, 
-        leftPoints: 0, 
-        rightPoints: 0, 
-        gameOver: false 
-      };
-    default:
-      return state;
-  }
-};
-
-SplashScreen.preventAutoHideAsync();
 
 const GameScreen = () => {
   const [winner, setWinner] = useState('');
@@ -58,7 +17,8 @@ const GameScreen = () => {
   const [changingLeft, setChangingLeft] = useState(true);
 
   const initialState = {
-    score: 18,
+    // score: 18,
+    score: 2,
     leftPoints: 0,
     rightPoints: 0,
     gameOver: false,
@@ -68,10 +28,6 @@ const GameScreen = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const dispatchAction = (type, payload = {}) => dispatch({ type, ...payload });
-
-  const [loaded, error] = useFonts({
-    'Russo-One': require('../assets/fonts/RussoOne-Regular.ttf'),
-  });
 
   const handlePress = useCallback((type, team) => {
     dispatch({ type, team });
@@ -85,19 +41,6 @@ const GameScreen = () => {
       setActiveModal(true);
     } 
   }, [state.leftPoints, state.rightPoints]);
-  
-  useEffect(() => {
-    const hideSplash = async () => {
-      if (loaded || error) {
-        await SplashScreen.hideAsync();
-      }
-    };
-    hideSplash();
-  }, [loaded, error]);  
-
-  if (!loaded && !error) {
-    return null;
-  }
 
   const handleFocus = (team) => {
     team === 'left' ? setChangingLeft(true) : setChangingLeft(false);
@@ -176,7 +119,7 @@ const GameScreen = () => {
       >
         <View style={styles.innerContainer}>
           <View style={styles.header}>
-            <View style={styles.pointsGoal}>
+            <View>
               <PointsGoal score={state.score.toString()} onBlur={onConfirmGoal} />
             </View>
             <View style={styles.teamNames}>
@@ -235,26 +178,19 @@ export const styles = StyleSheet.create({
     bottom: 0,
   },
   header: {
-    // flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'blue'
   },
   scoreboard: {
-    // flex: 18,
     height: 600,
-    // backgroundColor: 'green'
   },
   numbers: {
-    // flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    // backgroundColor: 'yellow'
 
   },
   scoreButtons: {
-    // flex: 3,
     flexDirection: 'row',
   },
   number: {
@@ -264,7 +200,6 @@ export const styles = StyleSheet.create({
     height: 36,
     width: 36,
     borderRadius: 28,
-    // backgroundColor: Colors.darkblue,
     textAlign: 'center',
     textAlignVertical: 'center',
   },
@@ -276,42 +211,27 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalText: {
-    fontFamily: 'Russo-One',
-    fontSize: 24,
+  winner: {
+    fontSize: 20,
+    marginTop: 8,
   },
-  modalInput: {
-    fontFamily: 'Russo-One',
-    fontSize: 24,
-    backgroundColor: 'white',
-    height: 64,
-    width: '90%',
-    borderRadius: 16,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    marginTop: 12,
-    marginBottom: 8,
-    backgroundColor: Colors.lightgrey
+  winnerName: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginTop: 4,
+    borderBottomWidth: 3,
+    borderRadius: 4,
+    borderColor: Colors.darkblue
   },
-  modalHeader: {
+  modalSides: {
     width: 50,
   },
   modalBody: {
-    width: 220,
+    width: 200,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalFooter: {
-    width: 50,
-  },
-  logo: {
-    opacity: 0.8
-  },
-  pointsGoal: {
-    // flex: 3,
-  },
   teamNames: {
-    // flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -323,14 +243,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 10,
-  },
-  leftButton: {
-    borderColor: Colors.red,
     borderWidth: 5,
-  },
-  rightButton: {
-    borderColor: Colors.teal,
-    borderWidth: 5,
+    backgroundColor: Colors.grey,
   },
 });
 

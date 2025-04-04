@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Points from './Points';
-import { Colors } from '../constants/colors';
+import Points from '../molecules/Points';
+import { Colors } from '../../lib/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const ScoreColumn = ({ pointsGoal, points, markMidLine }) => {

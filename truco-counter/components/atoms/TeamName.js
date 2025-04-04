@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
-import { Colors } from '../constants/colors';
+import { Colors } from '../../lib/constants/colors';
 
 const TeamName = ({ name, onBlur, onFocus }) => {
   const [newName, setNewName] = useState(name); 
@@ -32,10 +32,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: 48,
-    // backgroundColor: 'blue'
   },
   textInput: {
-    // fontFamily: 'Russo-One',
     fontWeight: '500',
     fontSize: 20,
     textAlign: 'center',
@@ -43,7 +41,6 @@ const styles = StyleSheet.create({
     textShadowColor: Colors.black,
     textShadowRadius: 2,
     color: Colors.white,
-    // paddingTop: 0
   },
 });
 

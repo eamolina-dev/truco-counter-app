@@ -15,29 +15,28 @@ const PointsGroup = ({ points, height = 100, width = 100 }) => {
       />
     );
   };
-  
 
   return (
     <View 
       style={[styles.pointsGroup, { height, width }]} 
     >
       <Group
-        style={[styles.match1, { opacity: points >= 1 ? 0.9 : 0, top: 10 * scale, left: -11 * scale }]}
+        style={[styles.match1, { opacity: points >= 1 ? 0.9 : 0, top: 10 * scale, left: -13 * scale }]}
         tilt="0deg"
         testID="match"
       />
       <Group
-        style={[styles.match2, { opacity: points >= 2 ? 0.9 : 0, top: -19 * scale, left: 23 * scale }]}
+        style={[styles.match2, { opacity: points >= 2 ? 0.9 : 0, top: -17 * scale, left: 23 * scale }]}
         tilt="90deg"
         testID="match"
       />
       <Group
-        style={[styles.match3, { opacity: points >= 3 ? 0.9 : 0, top: 20 * scale, left: 48 * scale }]}
+        style={[styles.match3, { opacity: points >= 3 ? 0.9 : 0, top: 20 * scale, left: 50 * scale }]}
         tilt="180deg"
         testID="match"
       />
       <Group
-        style={[styles.match4, { opacity: points >= 4 ? 0.9 : 0, top: 51 * scale, left: 14 * scale }]}
+        style={[styles.match4, { opacity: points >= 4 ? 0.9 : 0, top: 49 * scale, left: 14 * scale }]}
         tilt="270deg"
         testID="match"
       />

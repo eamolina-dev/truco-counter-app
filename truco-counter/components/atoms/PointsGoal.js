@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
-import { Colors } from '../constants/colors';
+import { Colors } from '../../lib/constants/colors';
 
 const PointsGoal = ({ score, onBlur }) => {
   const [newScore, setNewScore] = useState(score); 
 
   const handleChange = (s) => {
-    setNewScore(s);
+    const scr = parseInt(s) > 50 ? '50' : s;  
+    setNewScore(scr);
   };
 
   const handleBlur = () => {
@@ -23,6 +24,7 @@ const PointsGoal = ({ score, onBlur }) => {
         onBlur={handleBlur}
         style={styles.textInput}
         cursorColor={Colors.yellow}
+        keyboardType='numeric'
       />
     </View>
   );

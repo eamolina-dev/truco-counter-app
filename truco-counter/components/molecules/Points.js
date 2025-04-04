@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import PointsGroup from './PointsGroup';
+import PointsGroup from '../atoms/PointsGroup';
 
 const Points = ({ totalPoints, points }) => {
   const fullGroups = Math.floor(totalPoints / 5);

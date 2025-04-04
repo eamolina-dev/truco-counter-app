@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import TapArea from './TapArea';
+import TapArea from '../atoms/TapArea';
 import { FontAwesome6 } from "@expo/vector-icons";
 
 const IconButton = ({ onPress, style, iconName, iconSize, iconColor }) => {
