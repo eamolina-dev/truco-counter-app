@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import CustomModal from "../atoms/CustomModal";
 import IconButton from '../molecules/IconButton';
 import { FontAwesome6 } from "@expo/vector-icons";
+import { Colors } from "../../lib/constants/colors";
 
 const GameOverModal = ({ winner, onPressLeft, onPressRight, isVisible, onBackdropPress }) => {
   return (

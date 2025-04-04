@@ -25,16 +25,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      [
-        "expo-font",
-        {
-          "fonts": [
-            "./assets/fonts/RussoOne-Regular.ttf"
-          ]
-        }
-      ]
-    ],
     "extra": {
       "eas": {
         "projectId": "3764fae5-6e5c-48ce-9916-125f4240f587"
