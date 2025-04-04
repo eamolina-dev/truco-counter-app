@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import ScoreColumn from './ScoreColumn';
-import { Colors } from '../lib/constants/colors';
+import { Colors } from '../../lib/constants/colors';
 
 const ScoreBoard = ({ score, leftPoints, rightPoints }) => {
   const half = Math.floor(score / 2);
