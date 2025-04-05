@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useCallback, useState } from 'react';
-import { Alert, View, StatusBar, Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { Alert, View, StatusBar, Text, StyleSheet, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import TeamName from '../components/atoms/TeamName';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ScoreBoard from '../components/organisms/ScoreBoard';
@@ -48,15 +48,20 @@ const GameScreen = () => {
 
   const onConfirmName = (newName) => {
     const error = validateTeamName(newName);
-    const error2 = changingLeft ? validateUniqueNames(newName, state.rightTeamName) 
-                                : validateUniqueNames(state.leftTeamName, newName);
-    if (error || error2) return (
-      Alert.alert('Error: ', error || error2)
-    );
-
+    const error2 = changingLeft
+      ? validateUniqueNames(newName, state.rightTeamName)
+      : validateUniqueNames(state.leftTeamName, newName);
+  
+    if (error || error2) {
+      Alert.alert('Error: ', error || error2);
+      return false;
+    }
+  
     const teamKey = changingLeft ? 'left' : 'right';
-    dispatchAction('CHANGE_TEAM_NAME', { team: teamKey, newName });    
+    dispatchAction('CHANGE_TEAM_NAME', { team: teamKey, newName });
+    return true;
   };
+  
 
   const onConfirmGoal = (newGoal) => {
     const error = validateScore(newGoal);
@@ -108,54 +113,58 @@ const GameScreen = () => {
   
   return (
     <SafeAreaView style={styles.screen}>
-      <LinearGradient
-        colors={[Colors.darkblue, Colors.black]}
-        style={styles.background}
-      />
-      <StatusBar barStyle="light-content" />
-      <KeyboardAvoidingView 
-        style={{ flexGrow: 1 }}
-        contentContainerStyle={styles.outterContainer} 
-      >
-        <View style={styles.innerContainer}>
-          <View style={styles.header}>
-            <View>
-              <PointsGoal score={state.score.toString()} onBlur={onConfirmGoal} />
-            </View>
-            <View style={styles.teamNames}>
-              <TeamName name={state.leftTeamName} onBlur={onConfirmName} onFocus={() => handleFocus('left')} />
-              <TeamName name={state.rightTeamName} onBlur={onConfirmName} onFocus={() => handleFocus('right')} />
-            </View>
-          </View>
-          <View style={styles.scoreboard}>
-            <ScoreBoard 
-              score={state.score}
-              leftPoints={state.leftPoints}
-              rightPoints={state.rightPoints}
-            />
-          </View>
-          <View style={styles.numbers}>
-            <Text style={styles.number}>
-              {state.leftPoints.toString()}
-            </Text>
-            <Text style={styles.number}>
-              {state.rightPoints.toString()}
-            </Text>
-          </View>
-          <View style={styles.scoreButtons}>
-            <ScoreButtonGroup team="left" onPressLeft={onPressMinus} onPressRight={onPressPlus} />
-            <ScoreButtonGroup team="right" onPressLeft={onPressMinus} onPressRight={onPressPlus} />
-          </View>
-
-          <GameOverModal 
-            winner={winner} 
-            onPressLeft={onCancelModal} 
-            onPressRight={onConfirmGame}
-            isVisible={activeModal} 
-            onBackdropPress={onCancelModal} 
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={{ flex: 1 }}>
+          <LinearGradient
+            colors={[Colors.darkblue, Colors.black]}
+            style={styles.background}
           />
+          <StatusBar barStyle="light-content" />
+          <KeyboardAvoidingView 
+            style={{ flexGrow: 1 }}
+            contentContainerStyle={styles.outterContainer} 
+          >
+            <View style={styles.innerContainer}>
+              <View style={styles.header}>
+                <View>
+                  <PointsGoal score={state.score.toString()} onBlur={onConfirmGoal} />
+                </View>
+                <View style={styles.teamNames}>
+                  <TeamName name={state.leftTeamName} onBlur={onConfirmName} onFocus={() => handleFocus('left')} />
+                  <TeamName name={state.rightTeamName} onBlur={onConfirmName} onFocus={() => handleFocus('right')} />
+                </View>
+              </View>
+              <View style={styles.scoreboard}>
+                <ScoreBoard 
+                  score={state.score}
+                  leftPoints={state.leftPoints}
+                  rightPoints={state.rightPoints}
+                />
+              </View>
+              <View style={styles.numbers}>
+                <Text style={styles.number}>
+                  {state.leftPoints.toString()}
+                </Text>
+                <Text style={styles.number}>
+                  {state.rightPoints.toString()}
+                </Text>
+              </View>
+              <View style={styles.scoreButtons}>
+                <ScoreButtonGroup team="left" onPressLeft={onPressMinus} onPressRight={onPressPlus} />
+                <ScoreButtonGroup team="right" onPressLeft={onPressMinus} onPressRight={onPressPlus} />
+              </View>
+
+              <GameOverModal 
+                winner={winner} 
+                onPressLeft={onCancelModal} 
+                onPressRight={onConfirmGame}
+                isVisible={activeModal} 
+                onBackdropPress={onCancelModal} 
+              />
+            </View>
+          </KeyboardAvoidingView>
         </View>
-      </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
@@ -169,6 +178,7 @@ export const styles = StyleSheet.create({
   },
   innerContainer: {
     flex: 1,
+    // backgroundColor: 'blue',
   },
   background: {
     position: 'absolute',
@@ -182,7 +192,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   scoreboard: {
-    height: 600,
+    height: 610,
   },
   numbers: {
     flexDirection: 'row',
@@ -192,6 +202,7 @@ export const styles = StyleSheet.create({
   },
   scoreButtons: {
     flexDirection: 'row',
+    flex: 1,
   },
   number: {
     fontStyle: 'Russo-One',
@@ -202,6 +213,7 @@ export const styles = StyleSheet.create({
     borderRadius: 28,
     textAlign: 'center',
     textAlignVertical: 'center',
+    backgroundColor: Colors.darkblue,
   },
   tapArea: {
     flex: 1

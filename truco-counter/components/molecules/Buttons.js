@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
+    // backgroundColor: 'red',
   },
   button: {
     height: 56,
@@ -36,7 +37,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 10,
     // backgroundColor: Colors.darkblue,
-    borderColor: Colors.darkblue,
+    // borderColor: Colors.darkblue,
+    borderColor: Colors.lightgrey,
   },
   leftButton: {
     borderWidth: 4,

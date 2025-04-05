@@ -1,18 +1,38 @@
-import React, { useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, TextInput, View, Alert } from 'react-native';
 import { Colors } from '../../lib/constants/colors';
+import { validateScore } from '../../validations/validations';
 
 const PointsGoal = ({ score, onBlur }) => {
-  const [newScore, setNewScore] = useState(score); 
+  const [newScore, setNewScore] = useState(score);
+
+  useEffect(() => {
+    setNewScore(score);
+  }, [score]);
 
   const handleChange = (s) => {
-    const scr = parseInt(s) > 50 ? '50' : s;  
-    setNewScore(scr);
+    setNewScore(s);
   };
 
   const handleBlur = () => {
-    setNewScore((prev) => prev.trim());
-    onBlur(newScore.trim());
+    const trimmed = newScore.trim();
+    const error = validateScore(trimmed);
+
+    if (error) {
+      Alert.alert('Error: ', error);
+      setNewScore(score.toString());
+      return;
+    }
+
+    const parsed = parseInt(trimmed);
+    if (!isNaN(parsed)) {
+      const finalScore = parsed > 50 ? '50' : trimmed;
+      setNewScore(finalScore);
+      onBlur(finalScore);
+    } else {
+      Alert.alert('Error', 'Ingrese un número válido');
+      setNewScore(score.toString());
+    }
   };
 
   return (
@@ -31,15 +51,10 @@ const PointsGoal = ({ score, onBlur }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    // height: 64,
-    // backgroundColor: 'green'
-  },
+  container: {},
   textInput: {
-    // fontFamily: 'Russo-One',
     fontWeight: '500',
     fontSize: 48,
-    // borderColor: 'red',
     textShadowColor: Colors.black,
     textShadowRadius: 5,
     color: Colors.white,
@@ -47,9 +62,8 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     textAlign: 'center',
     textAlignVertical: 'center',
-    opacity: 0.9
-    // backgroundColor: 'red'
-  }
+    opacity: 0.9,
+  },
 });
 
 export default PointsGoal;

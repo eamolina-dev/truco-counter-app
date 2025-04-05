@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { Colors } from '../../lib/constants/colors';
 
 const TeamName = ({ name, onBlur, onFocus }) => {
-  const [newName, setNewName] = useState(name); 
+  const [newName, setNewName] = useState(name);
+  const prevNameRef = useRef(name);
 
-  const handleChange = (n) => {
-    setNewName(n);
+  useEffect(() => {
+    setNewName(name);
+    prevNameRef.current = name;
+  }, [name]);
+
+  const handleChange = (text) => {
+    setNewName(text);
   };
 
   const handleBlur = () => {
-    setNewName((prev) => prev.trim());
-    onBlur(newName.trim());
+    const trimmed = newName.trim();
+    setNewName(trimmed);
+    const wasAccepted = onBlur(trimmed);
+    if (!wasAccepted) {
+      setNewName(prevNameRef.current);
+    }
   };
 
   return (
