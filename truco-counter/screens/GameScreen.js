@@ -17,8 +17,7 @@ const GameScreen = () => {
   const [changingLeft, setChangingLeft] = useState(true);
 
   const initialState = {
-    // score: 18,
-    score: 2,
+    score: 18,
     leftPoints: 0,
     rightPoints: 0,
     gameOver: false,
@@ -192,13 +191,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   scoreboard: {
-    height: 610,
+    height: 600,
   },
   numbers: {
+    height: 80,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-
   },
   scoreButtons: {
     flexDirection: 'row',
