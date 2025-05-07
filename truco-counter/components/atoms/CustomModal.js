@@ -23,12 +23,13 @@ const CustomModal = ({ children, isVisible, onBackdropPress }) => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    height: 180,
-    width: 360,
+    height: 300,
+    width: 300,
     borderRadius: 28,
     backgroundColor: Colors.lightgrey,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
   },
   modalContent: {
     flex: 1,

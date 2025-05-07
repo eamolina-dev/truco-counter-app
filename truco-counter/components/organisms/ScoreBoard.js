@@ -9,29 +9,23 @@ const ScoreBoard = ({ score, leftPoints, rightPoints }) => {
   const markMidLine = leftPoints > half || rightPoints > half;
 
   return (
-    <View style={styles.scoreboard}>
-      <View style={styles.container}>
-        <ScoreColumn 
-          pointsGoal={score} 
-          points={leftPoints} 
-          markMidLine={markMidLine}
-        />
-          <View style={styles.divider} />
-        <ScoreColumn 
-          pointsGoal={score} 
-          points={rightPoints} 
-          markMidLine={markMidLine}
-        />
-      </View>
+    <View style={styles.container}>
+      <ScoreColumn 
+        pointsGoal={score} 
+        points={leftPoints} 
+        markMidLine={markMidLine}
+      />
+        <View style={styles.divider} />
+      <ScoreColumn 
+        pointsGoal={score} 
+        points={rightPoints} 
+        markMidLine={markMidLine}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  scoreboard: {
-    flex: 1,
-    // height: 600
-  },
   container: {
     flex: 1,
     flexDirection: 'row',

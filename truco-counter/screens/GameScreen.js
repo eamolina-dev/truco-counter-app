@@ -155,10 +155,11 @@ const GameScreen = () => {
 
               <GameOverModal 
                 winner={winner} 
-                onPressLeft={onCancelModal} 
-                onPressRight={onConfirmGame}
+                // onPressLeft={onCancelModal} 
+                onPress={onConfirmGame} 
+                // onPressRight={onConfirmGame}
                 isVisible={activeModal} 
-                onBackdropPress={onCancelModal} 
+                onBackdropPress={onConfirmGame} 
               />
             </View>
           </KeyboardAvoidingView>
@@ -189,19 +190,23 @@ export const styles = StyleSheet.create({
   header: {
     justifyContent: 'center',
     alignItems: 'center',
+    height: '15%',
   },
   scoreboard: {
-    height: 600,
+    // height: 600,
+    height: '65%',
   },
   numbers: {
-    height: 80,
+    height: '5%',
+    // height: 80,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
   },
   scoreButtons: {
     flexDirection: 'row',
-    flex: 1,
+    // flex: 1,
+    height: '15%',
   },
   number: {
     fontStyle: 'Russo-One',

@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.molidev.trucoscorekeeper"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +23,8 @@
       },
       "package": "com.molidev.trucoscorekeeper",
       "versionCode": 1,
-      "permissions": []
+      "permissions": [],
+      "windowSoftInputMode": "adjustPan"
     },
     "web": {
       "favicon": "./assets/favicon.png"

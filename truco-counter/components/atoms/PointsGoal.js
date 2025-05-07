@@ -51,7 +51,9 @@ const PointsGoal = ({ score, onBlur }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   textInput: {
     fontWeight: '500',
     fontSize: 48,

@@ -41,7 +41,6 @@ const TeamName = ({ name, onBlur, onFocus }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 48,
   },
   textInput: {
     fontWeight: '500',

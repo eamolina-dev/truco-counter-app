@@ -3,74 +3,58 @@ import { StyleSheet, View, Text } from "react-native";
 import CustomModal from "../atoms/CustomModal";
 import IconButton from '../molecules/IconButton';
 import { FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { Colors } from "../../lib/constants/colors";
+import TapArea from "../atoms/TapArea";
 
-const GameOverModal = ({ winner, onPressLeft, onPressRight, isVisible, onBackdropPress }) => {
+const GameOverModal = ({ winner, onPress, isVisible, onBackdropPress }) => {
   return (
     <CustomModal isVisible={isVisible} onBackdropPress={onBackdropPress}>
       <View style={styles.modal}>
-        <View style={styles.modalSides}>
-          <IconButton 
-            onPress={onPressLeft}
-            style={styles.button}
-            iconName='xmark'
-            iconSize={32}
-            iconColor={Colors.black}
-          />
-        </View>
-        <View style={styles.modalBody}>
-          <FontAwesome6 
-            name='trophy' 
-            size={48} 
-            color={Colors.yellow}
-          />
-          <Text style={styles.winner}>Ganador:</Text>
-        </View>
-        <View style={styles.modalSides}>
-          <IconButton 
-            onPress={onPressRight}
-            style={styles.button}
-            iconName='check'
-            iconSize={32}
-            iconColor={Colors.black}
-          />
-        </View>
+        <FontAwesome6 
+          name='trophy' 
+          size={48} 
+          color={Colors.yellow}
+        />
+        <Text style={styles.winner}>Ganador:</Text>
+        <Text style={styles.winnerName}>{winner}</Text>
+        <Text style={styles.winner}>Reiniciar</Text>
+        <TapArea onPress={onPress}>
+          <View style={styles.button}>
+            <FontAwesome
+              name='repeat'
+              size={32} 
+              color={Colors.black}
+            />
+          </View>
+        </TapArea>
       </View>
-      <Text style={styles.winnerName}>{winner}</Text>
     </CustomModal>
   );
 };
 
 export const styles = StyleSheet.create({
   modal: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
   winner: {
     fontSize: 20,
-    marginTop: 8,
+    // marginVertical: 8,
   },
   winnerName: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginTop: 4,
+    // marginVertical: 4,
     borderBottomWidth: 3,
     borderRadius: 4,
     borderColor: Colors.darkblue
   },
-  modalSides: {
-    width: 50,
-  },
-  modalBody: {
-    width: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   button: {
     height: 56,
-    width: 56,
-    borderRadius: 28,
+    width: 224,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 10,
